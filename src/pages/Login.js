@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
-import { checkWalletIsConnected } from "../util/interact";
+import { useState } from "react";
 import { addUserHandler } from "../util/interact";
 import Header from "../components/Header";
 import Input from "../components/Input";
 
 export default function Login() {
-  const [open, setOpen] = useState(false);
   const [input, setInput] = useState({
     creator_name: "",
     next_of_kin_name: "",
@@ -18,7 +16,6 @@ export default function Login() {
     next_of_kin_name,
     next_of_kin_email,
     next_of_kin_phone,
-    tokens,
   } = input;
 
   const handleChange = (e) => {
