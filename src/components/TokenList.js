@@ -1,6 +1,6 @@
 const tokenList = {
-  tokens: ["Goerli", "Ropstein", "Polygon"],
-  networks: ["Goerli", "Ropstein", "Polygon"],
+  tokens: ["Matic", "Matic"],
+  networks: ["Mumbai", "Mumbai"],
 };
 
 export default tokenList;

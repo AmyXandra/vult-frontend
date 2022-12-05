@@ -5,12 +5,12 @@ import Input from "../Input";
 
 export default function AddTokenModal(props) {
   const { input, setInput, open, setOpen } = props;
+
   const cancelButtonRef = useRef(null);
   const [data, setData] = useState({
     token: "",
     network: "",
   });
-  const { token, network } = data;
   const handleChange = (e) => {
     const { name, value } = e.target;
     e.preventDefault();
@@ -18,7 +18,7 @@ export default function AddTokenModal(props) {
   };
 
   const handleSubmit = () => {
-    setInput({ ...input, tokens: [...input.tokens, [token, network]] });
+    setInput({ ...input, tokens: [...input.tokens, data] });
     setOpen(false);
   };
 

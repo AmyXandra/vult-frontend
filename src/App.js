@@ -9,8 +9,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
-        {/* <Route index element={<Home />} /> */}
-        {/* <Route path="*" element={<NoPage />} /> */}
         <Route path="/get-started" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />

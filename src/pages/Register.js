@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
+import generateOtp from "generate-otp";
 import { checkWalletIsConnected } from "../util/interact";
 import { addUserHandler } from "../util/interact";
 import Header from "../components/Header";
 import Input from "../components/Input";
 import AddTokenModal from "../components/modals/AddTokenModal";
-// const otpGenerator = require("otp-generator");
 
 export default function Register() {
-  //   const newOtp = otpGenerator.generate(6, {
-  //     upperCaseAlphabets: false,
-  //     specialChars: false,
-  //   });
-  //   console.log("newOtp", newOtp);
+  const passwordGenerator = generateOtp;
+  const newOtp = passwordGenerator.generate(6);
+
   const [currentAccount, setCurrentAccount] = useState(null);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
     creator_name: "",
     next_of_kin_name: "",
     next_of_kin_email: "",
     next_of_kin_phone: "",
-    next_of_kin_otp: "098749",
+    next_of_kin_otp: newOtp,
     tokens: [],
   });
   const {
@@ -35,7 +34,6 @@ export default function Register() {
       // You can await here
       const response = await checkWalletIsConnected();
       response && setCurrentAccount(response);
-      // ...
     }
     fetchData();
   }, []);
@@ -47,23 +45,31 @@ export default function Register() {
   };
 
   const handleSubmit = async () => {
-    console.log(
-      "input",
-      creator_name,
-      next_of_kin_name,
-      next_of_kin_email,
-      next_of_kin_phone,
-      input.next_of_kin_otp,
-      input.tokens
-    );
-    await addUserHandler(
-      creator_name,
-      next_of_kin_name,
-      next_of_kin_email,
-      next_of_kin_phone,
-      input.next_of_kin_otp,
-      input.tokens
-    );
+    setLoading(true);
+    if (
+      (creator_name &&
+        next_of_kin_name &&
+        next_of_kin_email &&
+        next_of_kin_phone &&
+        input?.next_of_kin_otp &&
+        tokens[0]?.network,
+      tokens[0]?.token)
+    ) {
+      try {
+        let response = await addUserHandler(
+          creator_name,
+          next_of_kin_name,
+          next_of_kin_email,
+          next_of_kin_phone,
+          input.next_of_kin_otp,
+          tokens[0]?.network,
+          tokens[0]?.token
+        );
+        response && setLoading(false);
+      } catch (error) {
+        error && setLoading(false);
+      }
+    }
   };
 
   return (
@@ -143,9 +149,14 @@ export default function Register() {
                       Add Tokens
                     </h2>
                   </div>
-                  <button className="text-white" onClick={() => setOpen(true)}>
-                    + Add token
-                  </button>
+                  {tokens?.length < 1 && (
+                    <button
+                      className="text-white"
+                      onClick={() => setOpen(true)}
+                    >
+                      + Add token
+                    </button>
+                  )}
                 </div>
 
                 {creator_name && (
@@ -218,7 +229,7 @@ export default function Register() {
                       onChange={handleChange}
                     />
 
-                    <Input.Label
+                    <Input.Email
                       title="Next of kin email"
                       className="border-white p-4 mb-4"
                       type="email"
@@ -238,21 +249,12 @@ export default function Register() {
                       onChange={handleChange}
                     />
 
-                    <Input.Label
-                      title="Relationship"
-                      className="border-white p-4 mb-4"
-                      type="text"
-                      //   name="next_of_kin_phone"
-                      //   htmlFor="next_of_kin_phone"
-                      placeholder="What is your relationship with next of kin?"
-                      //   onChange={handleChange}
-                    />
                     <button
                       type="button"
                       onClick={handleSubmit}
                       className="h-12 px-6 rounded bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
                     >
-                      Submit
+                      {loading ? "Submitting..." : "Submit"}
                     </button>
                   </form>
                 )}

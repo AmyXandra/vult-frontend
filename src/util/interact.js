@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import contract from "../contracts/userVault.json";
-const contractAddress = "0x8eB32F0e780311aB7Baf11331A58B2f40d9a5A3c";
+const contractAddress = "0xEc95e2aDB1605E71498980715D199259d07BfC1f";
 const abi = contract.abi;
 
 export const checkWalletIsConnected = async () => {
@@ -46,7 +46,8 @@ export const addUserHandler = async (
   _next_of_kin_email,
   _next_of_kin_phone,
   _next_of_kin_otp,
-  creatorTokens
+  _token_network,
+  _token_name
 ) => {
   try {
     const { ethereum } = window;
@@ -54,15 +55,15 @@ export const addUserHandler = async (
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
       const addContract = new ethers.Contract(contractAddress, abi, signer);
-      console.log("initialise payment");
-      console.log("creatorTokens", creatorTokens);
+      console.log("initialise");
       let addUserTxn = await addContract.storeNextOfKinInfo(
         _creator_name,
         _next_of_kin_name,
         _next_of_kin_email,
         _next_of_kin_phone,
         _next_of_kin_otp,
-        creatorTokens
+        _token_network,
+        _token_name
       );
       console.log("addUserTxn", addUserTxn);
 
@@ -70,11 +71,13 @@ export const addUserHandler = async (
       await addUserTxn.wait();
 
       console.log("Created, see transaction hash:", addUserTxn.hash);
+      return addUserTxn;
     } else {
       console.log("Ethereum object does not exist");
     }
   } catch (error) {
     console.log("error", error);
+    return error;
   }
 };
 
@@ -86,19 +89,11 @@ export const getUserHandler = async (user) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const getContract = new ethers.Contract(contractAddress, abi, provider);
       console.log("initialise contract");
-      const endIndex = await getContract.currentCreatorTokenIndex(user);
-      console.log("getting index");
-      console.log("endIndex", endIndex);
-      if (endIndex) {
-        let getUserTxn = await getContract.getCreatorTokens(
-          user,
-          "0",
-          endIndex
-        );
-        console.log("...creating please wait");
-        console.log("getUserTxn", getUserTxn);
-        return getUserTxn;
-      }
+
+      let getUserTxn = await getContract.all_users(user);
+      console.log("...creating please wait");
+      console.log("getUserTxn", getUserTxn);
+      return getUserTxn;
     } else {
       console.log("Ethereum object does not exist");
     }

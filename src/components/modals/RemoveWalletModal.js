@@ -60,13 +60,12 @@ export default function RemoveWalletModal(props) {
                       >
                         No
                       </button>
-                      <button
+                      {/* <button
                         type="button"
                         className="h-12 text-lg text-white font-medium px-6 rounded-md w-full bg-gradient-to-r from-violet-500 to-fuchsia-500"
-                        // onClick={handleSubmit}
                       >
                         Yes
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>

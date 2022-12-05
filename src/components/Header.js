@@ -50,27 +50,32 @@ export default function Header() {
         >
           Vult
         </button>
-        {location?.pathname === "/" ? (
-          <button
-            className="h-10 text-lg font-medium px-6 rounded-md bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
-            onClick={() => navigate("/get-started")}
-          >
-            Get Started
-          </button>
-        ) : (
-          <>
-            {currentAccount ? (
-              <button
-                className="h-10 text-md font-medium px-5 rounded-md bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
-                onClick={() => setOpen(true)}
-              >
-                Connected: {shortAddress(currentAccount)}
-              </button>
-            ) : (
-              connectWalletButton()
-            )}
-          </>
-        )}
+        <div className="flex gap-4 items-center">
+          <a href="/profile" className="text-white">
+            My profile
+          </a>
+          {location?.pathname === "/" ? (
+            <button
+              className="h-10 text-lg font-medium px-6 rounded-md bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
+              onClick={() => navigate("/get-started")}
+            >
+              Get Started
+            </button>
+          ) : (
+            <>
+              {currentAccount ? (
+                <button
+                  className="h-10 text-md font-medium px-5 rounded-md bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
+                  onClick={() => setOpen(true)}
+                >
+                  Connected: {shortAddress(currentAccount)}
+                </button>
+              ) : (
+                connectWalletButton()
+              )}
+            </>
+          )}
+        </div>
       </div>
     </>
   );
