@@ -1,3 +1,14 @@
+# Getting Started
+
+Vult is an an app that helps you secure your tokens by sending them to your next of kin if there's no activity on it for a specified amount of time as something may have happened to you.
+
+To test the vult app frontend, you have to clone the project first. Follow the steps below on how to get started with create react app.
+
+. When you click on get started, you have to connect your wallet and fill the registration. This will send the contract your next of kin details.
+. Your next of kin will get a message when we don't get any activity from your account and will log in and send us their wallet address and we will   automatically transfer the tokens to them. These parts are not present in this project presently due to the time taken to understand the solidity and the blockchain.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
