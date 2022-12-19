@@ -35,8 +35,6 @@ export default function Profile() {
     getData();
   }, [currentAccount]);
 
-  console.log("data", data, data[3]);
-
   return (
     <div className="bg-[#000020] p-4 min-h-screen">
       <div className="max-w-7xl mx-auto">
