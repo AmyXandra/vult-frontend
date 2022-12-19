@@ -146,7 +146,7 @@ export default function Profile() {
                     <p>Connect wallet to get started</p>
                     <a
                       href="/get-started"
-                      className="h-12 px-6 rounded bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
+                      className="py-4 px-6 rounded bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
                     >
                       Get Started
                     </a>
